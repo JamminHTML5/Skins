@@ -5,16 +5,52 @@
 <meta charset=UTF-8">
 <meta name="keywords" content="jamminhtml5,video,skins,html5,playlist">
 <script type="text/javascript">
-
-/*
-Needed: full-screen icon
-
-        Siri 10.png poster
-        Siri.mp4 video
-
- */
-
 var v1, pp;
+var isShown = new Boolean();  // Volume Slider
+
+// Siri - YouTube
+
+var ga = document.createElement('script');
+ga.type = 'text/javascript';
+ga.async = false;
+ga.src = 'http://www.youtube.com/player_api';
+ga.controls = false;                                 // Added to original code!
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+
+var done = false;
+var player;
+      
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('SiriVideo', {
+            height: '355',           // Originally 390
+            width: '634',            // -4 allows for inset border
+            videoId: 'P8zG_gGmfmo',  // Siri video
+        playerVars: {
+            controls: 0,
+            disablekb: 1
+        },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+    }
+    function onPlayerReady(evt) {
+        console.log('onPlayerReady', evt);
+    }
+    function onPlayerStateChange(evt) {
+        console.log('onPlayerStateChange', evt);
+        if (evt.data == YT.PlayerState.PLAYING && !done) {
+//            setTimeout(stopVideo, 6000);
+            done = true;
+        }
+    }
+    
+    function stopVideo() {
+        console.log('stopVideo');
+        player.stopVideo();
+    }
 
 // Progress bar 640px Full Width
 
@@ -34,6 +70,8 @@ slider = document.getElementById('slider');
 
 bar.addEventListener('mousedown', startSlide, false);	
 bar.addEventListener('mouseup', stopSlide, false);
+
+isFull=false;
 }
  
 function startSlide(event) {
@@ -74,7 +112,6 @@ if(tt > 59) tt_readout = '' + Math.floor(tt / 60) + ':';
 if(tt > 59 && tt % 60 < 10) tt_readout += '0';
 tt_readout += Math.floor(tt % 60);
 
-bothTimesWhole.style.marginRight="60px";
 if(ct <= tt)  // Without the if, NAN shows briefly, & the right side of the cell jumps.
   document.getElementById('bothTimesWhole').innerHTML='' + ct_readout + ' / ' + tt_readout;
 
@@ -114,7 +151,9 @@ else { document.getElementById("vol_div").style.display="inherit"; isShown = tru
 
 function makeFileList() {
 var input = document.getElementById("filesToUpload");
-v1.poster="";
+document.getElementById('video1').poster="";
+document.getElementById('SiriVideo').style.display="none";
+
 for(i = 0; i < input.files.length; i++) {
   var oFilename = input.files[i].name;
   var samplepos=oFilename.lastIndexOf('.');
@@ -131,61 +170,11 @@ for(i = 0; i < input.files.length; i++) {
 }    // End for(var i = 0; ...
 }    // End makeFileList()
 
-/*
-        BG Dark Wood Resize.png
-        https://lh4.googleusercontent.com/-7Jmzx3DJn_c/VPcqs-hpqOI/AAAAAAAAAB4/tQqXSlfC24w/s912/BG%2520Dark%2520Wood%2520Resize.png
-        
-        BG Plaid Brown.png
-        https://lh6.googleusercontent.com/-h_tZiojivOg/VPcqekvgviI/AAAAAAAAABM/Xl5xXhVYoc4/s500/BG%2520Plaid%2520Brown.jpg
-        
-        BG Plaid Green.png
-        https://lh3.googleusercontent.com/-UPilPApmVqU/VPcqc1j4j2I/AAAAAAAAABE/yfyC8xb7whU/s420/BG%2520Plaid%2520Green.jpg
-        
-        BG Plaid Small.bmp
-        https://lh6.googleusercontent.com/-Rv7op_EPz90/VQR6WuKTKSI/AAAAAAAAANs/q-O3Rmy1enk/s100/BG%2520Plaid%2520Small.jpg
-        
-        BG Leopard.jpg
-        https://lh5.googleusercontent.com/-BMlB25grXnM/VPcqX4Cm9eI/AAAAAAAAAAc/E1Zr9V_SL9M/s645/BG%2520Leopard.jpg
-        
-        BG Neon - Wide Mirror.jpg
-        https://lh5.googleusercontent.com/-nYkN3n7Dl_0/VPcqtiiTj-I/AAAAAAAAAB8/Cahyp2RDnyw/s912/BG%2520Neon%2520-%2520Wide%2520Mirror.jpg
-        
-        BG Star Travel - Wide.gif
-        https://lh3.googleusercontent.com/-0gDbzGtA7ag/VPcqvxXoc0I/AAAAAAAAACE/N9PiDUVsLi0/s1000/BG%2520Star%2520Travel%2520-%2520Wide.gif
-
-    <input type=radio name="skin" checked onclick='showSkin(0)'> No Skin
-    <input type=radio name="skin" onclick='showSkin(1)'> Gray
-    <input type=radio name="skin" onclick='showSkin(2)'> Blue
-    <input type=radio name="skin" onclick='showSkin(3)'> Magenta
-    <input type="radio" name="skin" onclick='showSkin(4)'> Wood
-    <input type="radio" name="skin" onclick='showSkin(5)'> Brown Plaid
-    <input type="radio" name="skin" onclick='showSkin(6)'> Green Plaid
-    <input type="radio" name="skin" onclick='showSkin(7)'> Hot Plaid (tiled)
-    <input type="radio" name="skin" onclick='showSkin(8)'> Leopard
-    <input type="radio" name="skin" onclick='showSkin(9)'> Neon
-    <input type="radio" name="skin" onclick='showSkin(10)'> Star Travel (gif animation)&nbsp;
-*/
-
-function showSkin(skin) {
-var hue = '', oSkin = '';
-
-switch(skin) {
-  case 0: hue = "gray"; oSkin = ''; break;
-  case 1: hue = "gray"; oSkin = 'gray'; break;
-  case 2: hue = "blue"; oSkin = 'blue'; break;
-  case 3: hue = "magenta"; oSkin = 'magenta'; break;
-  case 4: hue = "brown"; oSkin = "brown url('https://lh4.googleusercontent.com/-7Jmzx3DJn_c/VPcqs-hpqOI/AAAAAAAAAB4/tQqXSlfC24w/s912/BG%2520Dark%2520Wood%2520Resize.png')"; break;
-  case 5: hue = "brown"; oSkin = "brown url('https://lh6.googleusercontent.com/-h_tZiojivOg/VPcqekvgviI/AAAAAAAAABM/Xl5xXhVYoc4/s500/BG%2520Plaid%2520Brown.jpg')"; break;
-  case 6: hue = "green"; oSkin = "green url('https://lh3.googleusercontent.com/-UPilPApmVqU/VPcqc1j4j2I/AAAAAAAAABE/yfyC8xb7whU/s420/BG%2520Plaid%2520Green.jpg')"; break;
-  case 7: hue = "magenta"; oSkin = "magenta url('https://lh6.googleusercontent.com/-Rv7op_EPz90/VQR6WuKTKSI/AAAAAAAAANs/q-O3Rmy1enk/s100/BG%2520Plaid%2520Small.jpg')"; break;
-  case 8: hue = "gold"; oSkin = "gold url('https://lh5.googleusercontent.com/-BMlB25grXnM/VPcqX4Cm9eI/AAAAAAAAAAc/E1Zr9V_SL9M/s645/BG%2520Leopard.jpg')"; break;
-  case 9: hue = "lime"; oSkin = "lime url('https://lh5.googleusercontent.com/-nYkN3n7Dl_0/VPcqtiiTj-I/AAAAAAAAAB8/Cahyp2RDnyw/s912/BG%2520Neon%2520-%2520Wide%2520Mirror.jpg')"; break;
-  case 10: hue = "black"; oSkin = "black url('https://lh3.googleusercontent.com/-0gDbzGtA7ag/VPcqvxXoc0I/AAAAAAAAACE/N9PiDUVsLi0/s1000/BG%2520Star%2520Travel%2520-%2520Wide.gif')"; break;
-}
-
-vid_container.style.background = oSkin;
-vid_container.style.border = '5px outset ' + hue;
-v1.style.border = '5px inset ' + hue;
+function showSkin(hue, skin) {
+  skin0 = hue + ' url("' + skin + '")';
+  vid_container.style.background = skin0;
+  vid_container.style.border = '5px outset ' + hue;
+  v1.style.border = '5px inset ' + hue;
 }
 
 function makeSkin() {
@@ -201,14 +190,38 @@ v1.style.border = '5px inset ' + hue;
 skin1 = hue + ' url(' + oBlob + ')';
 vid_container.style.background = skin1;
 }
+
+function BigSmall() {
+var docElm = document.documentElement;
+
+  if(!isFull) {
+//  alert('Not full screen!');
+
+  docElm.webkitRequestFullScreen();
+  
+  var ht = screen.height - 120;
+  document.getElementById('video1').style.maxHeight='' + ht + 'px';
+  document.getElementById('full-collapse').src='https://lh6.googleusercontent.com/-HZvwaOnqClA/VPeABlzEwaI/AAAAAAAAADk/qLBCrnaA30A/s18/collapse-screen.png';
+  isFull=true;
+  }
+  else {
+//  alert('Full screen!');
+
+  document.webkitCancelFullScreen();
+  document.getElementById('video1').style.maxHeight='355px';
+  document.getElementById('full-collapse').src='https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png';
+  isFull=false;
+  }
+}
+
 </script>
 
 <style type='text/css'>
 #vid_container { border:5px outset gray }
-#video1 { border: 5px inset gray; max-width:634px; max-height:360px }
+#video1 { border: 5px inset gray; max-width:634px; max-height:355px }
 #placard {
 background-color:gray;
-border: 3px outset #AFAF91;
+border: 3px outset #AFAF91;  /* Unicode for gray */
 position:relative; top:14px;
 margin-bottom:22px;
 cursor:default;
@@ -245,12 +258,12 @@ height:30px;
     background-position:0px 0px;
 }
 
-#vidtitle { font-size:20px }
-#rp{ height:18px }
-.mgn{ margin:12px; text-align:center; width:646px }  /* Allow for L/R 3px border! */
-.ctls{ color:white }
-.titl{ font-size:20px }
-.rad{ position:absolute; left:700px; top:26px; border: 1px solid black; padding:6px; background-color:white }
+#vidtitle {font-size:20px}
+#rp {height:18px}
+.mgn {margin:12px; text-align:center; width:646px}  /* Allow for L/R 3px border! */
+.ctls {color:white}
+.titl {font-size:20px}
+.rad {position:absolute; left:700px; top:26px; border: 1px solid black; padding:6px; background-color:white}
 .noselect {                           /* Prevent selection hilight */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -284,7 +297,7 @@ transform: rotate(-90deg);
 <div id="vid_container">
   <div class="mgn">
     <div onclick="play_pause()">
-      <video id="video1" poster="https://lh3.googleusercontent.com/-vMnffL6Z_v4/VQRFQAl2xAI/AAAAAAAAAM0/sLqZBzyR1H0/s720/Siri%252010.png" src="https://www.youtube.com/watch?v=P8zG_gGmfmo" onended="halt()"></video>
+      <video id="video1" poster="Posters/Siri 10.png" src="" onended="halt()"></video>
     </div>
 
     <div id='bar'>
@@ -295,15 +308,17 @@ transform: rotate(-90deg);
     <div id="placard">
       <table class="ctls" cellspacing="0" cellpadding="0" align="center" width="646px">
         <tr>
-          <td width="55px">
+          <td width="160px">
             &nbsp; <input id="rp" type="image" src="https://lh3.googleusercontent.com/-m5Bs6jzCkOA/VPeACkM5xEI/AAAAAAAAAD0/uQSDeHNxfRo/s22/refresh-icon.png" onclick="window.location.reload()" />&nbsp;
-            <input id="video-fullscreen" type="image" src="https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png" onclick="this.blur()" />
+            <input id="full-collapse" type="image" src="https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png" onclick="this.blur(); BigSmall()" />&nbsp;
+            <input type="file" id="fileToUpload" accept="video/*" style="display:none" onChange="makeFile()" />
+            <button style="position:relative;top:-2px" onClick="filesToUpload.click()">Select Video</button>
            </td>
-             <td align="center" width="155px">
+             <td align="center" width="90px">
                <div id="bothTimesWhole">&nbsp;</div>
              </td>
-             <td id="vidtitle" align="center">5 Year Old Converses with Siri</td>
-             <td id="butts" align="center" width="180px">
+             <td id="vidtitle" align="center">5 y/o Converses with Siri</td>
+             <td id="butts" align="center" width="150px">
                <div id="menu" class="noselect">
                  <span id="st" onclick="this.blur(); halt()">&#8718;&nbsp;</span>
                  <span onclick="this.blur(); play_pause()">
@@ -315,7 +330,7 @@ transform: rotate(-90deg);
                    <div id="vol_div">
                      <input class="rotateLeft" type="range" min="0" max="100" step="1" value="100" onchange="video1.volume = this.value * 0.01" />
                    </div>
-                   <img src="https://lh5.googleusercontent.com/-7UAEJHjZktA/VPeADO6pquI/AAAAAAAAAEI/XSYsJKEkL4I/s512/volume-full-icon-64.png" height="24"/>&nbsp;
+                   <img src="https://lh5.googleusercontent.com/-7UAEJHjZktA/VPeADO6pquI/AAAAAAAAAEI/XSYsJKEkL4I/s512/volume-full-icon-64.png" height="24" />&nbsp;
                  </span>
                </div> 
              </td>
@@ -333,83 +348,44 @@ transform: rotate(-90deg);
 
   <h3>&nbsp; Skins</h3>
   <label>
-    <input type=radio name="skin" checked onclick='showSkin(0)'> No Skin
+    <input type=radio name="skin" checked onclick='showSkin("", "")'> No Skin
   </label><br><br>
   <label>
-    <input type=radio name="skin" onclick='showSkin(1)'> Gray
+    <input type=radio name="skin" onclick='showSkin("gray", "")'> Gray
   </label><br>
   <label>
-    <input type=radio name="skin" onclick='showSkin(2)'> Blue
+    <input type=radio name="skin" onclick='showSkin("#0000FF", "")'> Blue
   </label><br>
   <label>
-    <input type=radio name="skin" onclick='showSkin(3)'> Magenta
+    <input type=radio name="skin" onclick='showSkin("magenta", "")'> Magenta
   </label><br><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(4)'> Wood
+    <input type="radio" name="skin" onclick='showSkin("brown", "https://lh4.googleusercontent.com/-7Jmzx3DJn_c/VPcqs-hpqOI/AAAAAAAAAB4/tQqXSlfC24w/s1000/BG%2520Dark%2520Wood%2520Resize.png")'> Wood
   </label><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(5)'> Brown Plaid
+    <input type="radio" name="skin" onclick='showSkin("brown", "https://lh6.googleusercontent.com/-K3kiP3pUu6Q/VPcqaBkuGYI/AAAAAAAAAA0/gmldVUDTkPQ/s500/BG%2520Plaid%2520Brown.png")'> Brown Plaid
   </label><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(6)'> Green Plaid
+    <input type="radio" name="skin" onclick='showSkin("green", "https://lh6.googleusercontent.com/-536CwYAVEiE/VPcqbeqN74I/AAAAAAAAAA8/C5OwpC-CToE/s420/BG%2520Plaid%2520Green.png")'> Green Plaid
   </label><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(7)'> Hot Plaid (tiled)
+    <input type="radio" name="skin" onclick='showSkin("magenta", "https://lh6.googleusercontent.com/-Rv7op_EPz90/VQR6WuKTKSI/AAAAAAAAANs/q-O3Rmy1enk/s100/BG%2520Plaid%2520Small.jpg")'> Hot Plaid (tiled)
   </label><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(8)'> Leopard
+    <input type="radio" name="skin" onclick='showSkin("gold", "https://lh5.googleusercontent.com/-BMlB25grXnM/VPcqX4Cm9eI/AAAAAAAAAAc/E1Zr9V_SL9M/s645/BG%2520Leopard.jpg")'> Leopard
   </label><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(9)'> Neon
+    <input type="radio" name="skin" onclick='showSkin("lime", "https://lh5.googleusercontent.com/-nYkN3n7Dl_0/VPcqtiiTj-I/AAAAAAAAAB8/Cahyp2RDnyw/s1000/BG%2520Neon%2520-%2520Wide%2520Mirror.jpg")'> Neon
   </label><br><br>
   <label>
-    <input type="radio" name="skin" onclick='showSkin(10)'> Star Travel (gif animation)&nbsp;
+    <input type="radio" name="skin" onclick='showSkin("black", "https://lh3.googleusercontent.com/-0gDbzGtA7ag/VPcqvxXoc0I/AAAAAAAAACE/N9PiDUVsLi0/s1000/BG%2520Star%2520Travel%2520-%2520Wide.gif")'> Star Travel (gif animation)&nbsp;
   </label><br><br>
   <input type="file" id="skinToUpload" accept="image/*" style="display:none" onChange="makeSkin()" />
     <button  style="margin-left:25px; margin-bottom:5px" onClick="skinToUpload.click()">My Own Skin</button><br>
 
 </div>
 
-<script>
-(function () {
-    var marioVideo = document.getElementById("video1")
-        videoFullscreen = document.getElementById("video-fullscreen");
+<div id="SiriVideo" style="position:absolute; left:26px; top:26px; border:5px inset gray"></div>
 
-    if (marioVideo && videoFullscreen) {
-        videoFullscreen.addEventListener("click", function (evt) {
-            if (marioVideo.requestFullscreen) {
-                marioVideo.requestFullscreen();
-            }
-            else if (marioVideo.msRequestFullscreen) {
-                marioVideo.msRequestFullscreen();
-            }
-            else if (marioVideo.mozRequestFullScreen) {
-                marioVideo.mozRequestFullScreen();
-            }
-            else if (marioVideo.webkitRequestFullScreen) {
-                marioVideo.webkitRequestFullScreen();
-            }
-        }, false);
-    }
-    var cancelFullScreen = document.getElementById("cancel-fullscreen");
-    if (cancelFullScreen) {
-        cancelFullScreen.addEventListener("click", function () {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-            else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-            else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            }
-            else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
-        }, false);
-    }
-
-})();
-</script>
 </body>
 </html>
