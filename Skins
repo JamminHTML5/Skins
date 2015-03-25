@@ -297,7 +297,7 @@ transform: rotate(-90deg);
 <div id="vid_container">
   <div class="mgn">
     <div onclick="play_pause()">
-      <video id="video1" poster="Posters/Siri 10.png" src="" onended="halt()"></video>
+      <video id="video1" poster="https://lh3.googleusercontent.com/-vMnffL6Z_v4/VQRFQAl2xAI/AAAAAAAAAM0/sLqZBzyR1H0/s720/Siri%252010.png" src="" onended="halt()"></video>
     </div>
 
     <div id='bar'>
