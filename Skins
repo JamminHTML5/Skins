@@ -308,11 +308,9 @@ transform: rotate(-90deg);
     <div id="placard">
       <table class="ctls" cellspacing="0" cellpadding="0" align="center" width="646px">
         <tr>
-          <td width="160px">
+          <td width="60px">
             &nbsp; <input id="rp" type="image" src="https://lh3.googleusercontent.com/-m5Bs6jzCkOA/VPeACkM5xEI/AAAAAAAAAD0/uQSDeHNxfRo/s22/refresh-icon.png" onclick="window.location.reload()" />&nbsp;
             <input id="full-collapse" type="image" src="https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png" onclick="this.blur(); BigSmall()" />&nbsp;
-            <input type="file" id="fileToUpload" accept="video/*" style="display:none" onChange="makeFile()" />
-            <button style="position:relative;top:-2px" onClick="filesToUpload.click()">Select Video</button>
            </td>
              <td align="center" width="90px">
                <div id="bothTimesWhole">&nbsp;</div>
