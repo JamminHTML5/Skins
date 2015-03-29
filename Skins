@@ -108,7 +108,6 @@ else { document.getElementById("vol_div").style.display="inherit"; isShown = tru
 function makeFileList() {
 var input = document.getElementById("filesToUpload");
 document.getElementById('video1').poster="";
-document.getElementById('SiriVideo').style.display="none";
 
 for(i = 0; i < input.files.length; i++) {
   var oFilename = input.files[i].name;
@@ -264,35 +263,33 @@ transform: rotate(-90deg);
     <div id="placard">
       <table class="ctls" cellspacing="0" cellpadding="0" align="center" width="646px">
         <tr>
-          <td width="160px">
+          <td width="60px">
             &nbsp; <input id="rp" type="image" src="https://lh3.googleusercontent.com/-m5Bs6jzCkOA/VPeACkM5xEI/AAAAAAAAAD0/uQSDeHNxfRo/s22/refresh-icon.png" onclick="window.location.reload()" />&nbsp;
             <input id="full-collapse" type="image" src="https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png" onclick="this.blur(); BigSmall()" />&nbsp;
-            <input type="file" id="fileToUpload" accept="video/*" style="display:none" onChange="makeFile()" />
-            <button style="position:relative;top:-2px" onClick="filesToUpload.click()">Select Video</button>
-           </td>
-             <td align="center" width="90px">
-               <div id="bothTimesWhole">&nbsp;</div>
-             </td>
-             <td id="vidtitle" align="center">5 y/o Converses with Siri</td>
-             <td id="butts" align="center" width="150px">
-               <div id="menu" class="noselect">
-                 <span id="st" onclick="this.blur(); halt()">&#8718;&nbsp;</span>
-                 <span onclick="this.blur(); play_pause()">
-                   <img id="pp" src="https://lh5.googleusercontent.com/-IIiZ8hWrv1k/VQLsZXTdRHI/AAAAAAAAAMc/bvEYTcnk5XA/s73/Play.png" width="24px" />
-                 </span>
-                 <span id="sf" onclick="this.blur(); video1.currentTime -= 0.03;">&#10703;</span>
-                 <span id="sb" onclick="this.blur(); video1.currentTime += 0.03;">&#10704;&nbsp;</span>
-                 <span id="sp" onclick="this.blur(); show_hide_vol()">
-                   <div id="vol_div">
-                     <input class="rotateLeft" type="range" min="0" max="100" step="1" value="100" onchange="video1.volume = this.value * 0.01" />
-                   </div>
-                   <img src="https://lh5.googleusercontent.com/-7UAEJHjZktA/VPeADO6pquI/AAAAAAAAAEI/XSYsJKEkL4I/s512/volume-full-icon-64.png" height="24" />&nbsp;
-                 </span>
-               </div> 
-             </td>
-           </tr>
-         </table>
-       </div>
+          </td>
+          <td align="center" width="90px">
+            <div id="bothTimesWhole">&nbsp;</div>
+          </td>
+          <td id="vidtitle" align="center">5 Year Old Has Conversation with Siri</td>
+          <td align="center" width="150px">
+            <div id="menu" class="noselect">
+              <span id="st" onclick="this.blur(); halt()">&#8718;&nbsp;</span>
+              <span onclick="this.blur(); play_pause()">
+                <img id="pp" src="https://lh5.googleusercontent.com/-IIiZ8hWrv1k/VQLsZXTdRHI/AAAAAAAAAMc/bvEYTcnk5XA/s73/Play.png" width="24px" />
+              </span>
+              <span id="sf" onclick="this.blur(); video1.currentTime -= 0.03;">&#10703;</span>
+              <span id="sb" onclick="this.blur(); video1.currentTime += 0.03;">&#10704;&nbsp;</span>
+              <span id="sp" onclick="this.blur(); show_hide_vol()">
+                <div id="vol_div">
+                  <input class="rotateLeft" type="range" min="0" max="100" step="1" value="100" onchange="video1.volume = this.value * 0.01" />
+                </div>
+                <img src="https://lh5.googleusercontent.com/-7UAEJHjZktA/VPeADO6pquI/AAAAAAAAAEI/XSYsJKEkL4I/s512/volume-full-icon-64.png" height="24" />&nbsp;
+              </span>
+            </div> 
+          </td>
+        </tr>
+      </table>
+    </div>
 
   </div>
 </div>
