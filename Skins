@@ -8,50 +8,6 @@
 var v1, pp;
 var isShown = new Boolean();  // Volume Slider
 
-// Siri - YouTube
-
-var ga = document.createElement('script');
-ga.type = 'text/javascript';
-ga.async = false;
-ga.src = 'http://www.youtube.com/player_api';
-ga.controls = false;                                 // Added to original code!
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(ga, s);
-
-var done = false;
-var player;
-      
-    function onYouTubePlayerAPIReady() {
-        player = new YT.Player('SiriVideo', {
-            height: '355',           // Originally 390
-            width: '634',            // -4 allows for inset border
-            videoId: 'P8zG_gGmfmo',  // Siri video
-        playerVars: {
-            controls: 0,
-            disablekb: 1
-        },
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-    }
-    function onPlayerReady(evt) {
-        console.log('onPlayerReady', evt);
-    }
-    function onPlayerStateChange(evt) {
-        console.log('onPlayerStateChange', evt);
-        if (evt.data == YT.PlayerState.PLAYING && !done) {
-//            setTimeout(stopVideo, 6000);
-            done = true;
-        }
-    }
-    
-    function stopVideo() {
-        console.log('stopVideo');
-        player.stopVideo();
-    }
-
 // Progress bar 640px Full Width
 
 var bar, slider, w=0;
@@ -297,7 +253,7 @@ transform: rotate(-90deg);
 <div id="vid_container">
   <div class="mgn">
     <div onclick="play_pause()">
-      <video id="video1" poster="https://lh3.googleusercontent.com/-vMnffL6Z_v4/VQRFQAl2xAI/AAAAAAAAAM0/sLqZBzyR1H0/s720/Siri%252010.png" src="" onended="halt()"></video>
+      <video id="video1" poster="https://lh3.googleusercontent.com/-vMnffL6Z_v4/VQRFQAl2xAI/AAAAAAAAAM0/sLqZBzyR1H0/s720/Siri%252010.png" src="https://i.rmbl.ws/s8/2/k/0/f/t/k0fta.caa.1.mp4?8cc267c1024fd9a3d92376c3ac840bd999b9e17cb22eadb91fc47038437cf5683b67eb56f758e742cc9478de4551779b63bf0691540fbc0066e5fcf483e9597901cdacc6ac87214da85160b59b" onended="halt()"></video>
     </div>
 
     <div id='bar'>
@@ -308,9 +264,11 @@ transform: rotate(-90deg);
     <div id="placard">
       <table class="ctls" cellspacing="0" cellpadding="0" align="center" width="646px">
         <tr>
-          <td width="60px">
+          <td width="160px">
             &nbsp; <input id="rp" type="image" src="https://lh3.googleusercontent.com/-m5Bs6jzCkOA/VPeACkM5xEI/AAAAAAAAAD0/uQSDeHNxfRo/s22/refresh-icon.png" onclick="window.location.reload()" />&nbsp;
             <input id="full-collapse" type="image" src="https://lh4.googleusercontent.com/-Gcdi9RkNHiU/VPeACHzAMhI/AAAAAAAAAEQ/24r8SDfOltg/s19/full-screen.png" onclick="this.blur(); BigSmall()" />&nbsp;
+            <input type="file" id="fileToUpload" accept="video/*" style="display:none" onChange="makeFile()" />
+            <button style="position:relative;top:-2px" onClick="filesToUpload.click()">Select Video</button>
            </td>
              <td align="center" width="90px">
                <div id="bothTimesWhole">&nbsp;</div>
@@ -380,10 +338,6 @@ transform: rotate(-90deg);
   </label><br><br>
   <input type="file" id="skinToUpload" accept="image/*" style="display:none" onChange="makeSkin()" />
     <button  style="margin-left:25px; margin-bottom:5px" onClick="skinToUpload.click()">My Own Skin</button><br>
-
 </div>
-
-<div id="SiriVideo" style="position:absolute; left:26px; top:26px; border:5px inset gray"></div>
-
 </body>
 </html>
